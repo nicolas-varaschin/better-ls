@@ -143,7 +143,7 @@ if __name__ == '__main__':
         "--list",
         action="store_true",
         default=False,
-     dest="is_list")
+        dest="is_list")
     parser.add_option("-d", "--dir", dest="dir", default='')
     (options, args) = parser.parse_args()
 
@@ -163,15 +163,15 @@ if __name__ == '__main__':
                 file_line = ("%s %s" % (EXTENSIONS[u":FILE"][0], f))
                 file_color = colorfmt(EXTENSIONS[u":FILE"][1])
         else:
-            file_line = ("%s %s" % (EXTENSIONS[u":DIRECTORY"][0], f))
+            file_line = (u"%s %s" % (EXTENSIONS[u":DIRECTORY"][0], f.decode('utf-8')))
             file_color = colorfmt(EXTENSIONS[u":DIRECTORY"][1])
         if options.is_list:
             try:
                 file_stat = os.stat(f)
-                file_line = u"{:<15}{:<10}{:<10}{}".format(
-                                    permissions_to_unix_name(file_stat),
-                                    get_user_name(file_stat),
-                                    get_file_size(file_stat), file_line)
+                file_line = u"{:<15}{:<15}{:<10}{}".format(
+                    permissions_to_unix_name(file_stat),
+                    get_user_name(file_stat),
+                    get_file_size(file_stat), file_line)
             except OSError:
                 file_line = f
         formattedfiles.append((file_line, file_color))
